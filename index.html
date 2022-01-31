@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="assets/css/styleFont.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<!--library javascript-->
+	<script src="assets/js/jquery-3.5.1.js"></script>
+	<title></title>
+</head>
+<body>
+
+	<!--banner-->
+	<div class="ctBanner">
+		<!--img src="assets/img/fondo02.jpg"-->
+	</div>
+
+	<div class="ctBody">
+
+		<!--search-->
+		<div class="ctSearctList">
+			<div>
+				<p>
+					Search for a <b>Pokémon</b> by its name or its <b>National Pokédex</b> number
+				</p>
+			</div>
+			<div>
+				<label>name or number</label>
+				<input class="filter" placeholder="Search..."/>
+			</div>
+		</div>
+
+		<!--pestana-->
+		<div class="ctClasif">
+			<div>
+				<p class="act" onclick="selectGeneration(this, 1);">Generation 1</p>
+			</div>
+			<div>
+				<p onclick="selectGeneration(this, 2);">Generation 2</p>
+			</div>
+			<!--div>
+				<p onclick="selectGeneration(this, 3);">Generation 3</p>
+			</div-->
+		</div>
+
+		<!--listCard-->
+		<div id="ListCards">
+			<!--generation-01-->
+			<div>
+				<!--card-->
+			</div>
+			<!--generation-02-->
+			<div style="display:none;">
+				<!--card-->
+			</div>
+		</div>
+
+	</div>
+
+	<!--footer-->
+	<div class="ctFooter">
+		<p>© 2023 All rights reserved. Gomito</p>
+	</div>
+
+	<script>
+		//function for select generation
+		function selectGeneration(el, e) {
+			$(".ctClasif div p").removeClass("act");
+			$(el).addClass("act");
+			$("#ListCards > div").hide();
+			switch(e) {
+				case 1:
+				    $("#ListCards > div:nth-child(1)").show();
+				    break;
+			    case 2:
+				    $("#ListCards > div:nth-child(2)").show();
+				    break;
+		    }
+		}
+
+		//function for filter the list cards
+		$(".filter").on("keyup", function() {
+		  	let input = $(this).val().toUpperCase();
+
+		  	$(".ctCard").each(function() {
+		    	if($(this).data("string").toUpperCase().indexOf(input) < 0) {
+		      		$(this).hide();
+		    	} else {
+		      		$(this).show();
+		    	}
+		  	});
+		});
+
+		//function data JSON generation 01
+		updateListCardGeneration01();
+		function updateListCardGeneration01(){
+		    var xhttp = new XMLHttpRequest();
+		    xhttp.open("GET", "assets/js/generation01.json", true);
+		    xhttp.setRequestHeader('X-PINGOTHER', 'pingpong');
+      		xhttp.setRequestHeader('Content-Type', 'application/xml');
+		    xhttp.send();
+		    xhttp.onreadystatechange = function(){
+		        if (this.readyState == 4 && this.status == "200") {
+		            let dataJson = JSON.parse(this.responseText);
+		            let listCardDom = document.querySelector("#ListCards > div:nth-child(1)");
+		            for(let data of dataJson){
+		            	var html = '<div class="ctCard" data-string="' + data.name + ', ' + data.id + '">' +
+										'<div>' +
+											'<img src="' + data.img + '">' +
+										'</div>' +
+										'<div>' +
+											'<p class="cardTitle">' +
+												data.name + ' ' +
+												'<span>' +
+													'<i class="fas fa-certificate"></i>' +
+													'<i class="fas fa-check"></i>' +
+												'</span>' +
+											'</p>' +
+										'</div>' +
+										'<div class="ctCardGrid">' +
+											'<div>' +
+												'<p> N. &#176;' + data.id + '</p>' +
+											'</div>' +
+											'<div>' +
+												'<p> 1 / 1</p>' +
+											'</div>' +
+											'<div>' +
+												'<p><img src="assets/img/eth01.png">' + data.eth + '</p>' +
+											'</div>' +
+											'<div>' +
+												'<a class="btnLink" href="">Buy now</a>' +
+											'</div>' +
+											'<div>' +
+												'<i class="fad fa-heart-circle"></i>' +
+											'</div>' +
+										'</div>' +
+									'</div>'
+		                listCardDom.innerHTML += html;
+		            }
+		        }
+		    }
+		}
+
+		//function data JSON generation 01
+		updateListCardGeneration02();
+		function updateListCardGeneration02(){
+		    var xhttp = new XMLHttpRequest();
+		    xhttp.open("GET", "assets/js/generation02.json", true);
+		    xhttp.setRequestHeader('X-PINGOTHER', 'pingpong');
+      		xhttp.setRequestHeader('Content-Type', 'application/xml');
+		    xhttp.send();
+		    xhttp.onreadystatechange = function(){
+		        if (this.readyState == 4 && this.status == "200") {
+		            let dataJson = JSON.parse(this.responseText);
+		            let listCardDom = document.querySelector("#ListCards > div:nth-child(2)");
+		            for(let data of dataJson){
+		            	var html = '<div class="ctCard" data-string="' + data.name + ', ' + data.id + '">' +
+										'<div>' +
+											'<img src="' + data.img + '">' +
+										'</div>' +
+										'<div>' +
+											'<p class="cardTitle">' +
+												data.name + ' ' +
+												'<span>' +
+													'<i class="fas fa-certificate"></i>' +
+													'<i class="fas fa-check"></i>' +
+												'</span>' +
+											'</p>' +
+										'</div>' +
+										'<div class="ctCardGrid">' +
+											'<div>' +
+												'<p> N. &#176;' + data.id + '</p>' +
+											'</div>' +
+											'<div>' +
+												'<p> 1 / 1</p>' +
+											'</div>' +
+											'<div>' +
+												'<p><img src="assets/img/eth01.png">' + data.eth + '</p>' +
+											'</div>' +
+											'<div>' +
+												'<a class="btnLink" href="">Buy now</a>' +
+											'</div>' +
+											'<div>' +
+												'<i class="fad fa-heart-circle"></i>' +
+											'</div>' +
+										'</div>' +
+									'</div>'
+		                listCardDom.innerHTML += html;
+		            }
+		        }
+		    }
+		}
+	</script>
+
+</body>
+</html>
